@@ -19,8 +19,6 @@ knitr::opts_chunk$set(
   fig.width = 4,
   comment = "#>"
 )
-
-fig_path <- "/Users/eah394/Documents/GitHub/aggregation_methods/figures/MMODS_analysis/"
 ```
 
 ```{r setup-plot, echo = FALSE}
@@ -161,7 +159,7 @@ Then, we implement the aggregation using each of these methods. To aggregate a s
 # run all possible combinations
 ret_quant <- seq(0,1, 0.01)
 aggs <- foreach(i=1:nrow(test_trim)) %dopar% {
-  aggregate_cdfs(data = MMODS,
+  CombineDistributions::aggregate_cdfs(data = MMODS,
                  id_var = "id", 
                  method = test_trim[i,"method"], 
                  ret_quantiles = ret_quant,
@@ -314,7 +312,6 @@ MMODS_obs %>%
   scale_x_continuous(labels = comma) +
   theme_bw(base_size = 8) +
   theme(panel.grid = element_blank())
-ggsave(paste0(fig_path,"popvsobs.pdf"), width = 4, height = 4, units = "in")
 ```
 
 To evaluate performance, we use four metrics: 
@@ -458,7 +455,6 @@ plot_grid(plot_grid(p2a + labs(subtitle = "A: Trimmed aggregate distributions"),
           NULL, 
           p3 + labs(subtitle = "B: Aggregate performance"), 
           rel_widths = c(0.4,0.02,0.6), nrow = 1)
-ggsave(paste0(fig_path,"performance_all_trimming.pdf"), width = 6, height = 4 , units = "in")
 ```
 
 ```{r plot-main-fig, include = FALSE}
@@ -592,7 +588,6 @@ plot_grid(plot_grid(p1,
                     NULL, 
                     p2b, 
                     ncol = 1, align = "v", axis = "lr", rel_heights = c(0.4,0.3, -0.0001, 0.3)), NULL, p3, rel_widths = c(0.4,0.02,0.6), nrow = 1)
-ggsave(paste0(fig_path,"performance_trimming.pdf"), width = 6, height = 4.3, units = "in")
 ```
 
 ```{r ms-vals, include = FALSE}
